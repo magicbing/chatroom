@@ -6,7 +6,7 @@
       <Col span="12">
       <Card style="width:320px">
         <div style="text-align:center">
-          <img src="https://file.iviewui.com/dist/76ecb6e76d2c438065f90cd7f8fa7371.png">
+          <img src="https://sfault-avatar.b0.upaiyun.com/119/055/1190556508-5923c3e3428ee_big64">
           <h3>头像</h3>
         </div>
       </Card>
@@ -19,12 +19,28 @@
           <Button type="primary">提交</Button>
           <Button type="ghost" style="margin-left: 8px">取消</Button>
         </Form-item>
+        <Upload multiple type="drag" action="//jsonplaceholder.typicode.com/posts/">
+          <div style="padding: 20px 0">
+            <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+            <p>上传图片</p>
+          </div>
+        </Upload>
       </Form>
       </Col>
       <!-- 左边栏 -->
   
       <Col span="12">
+      <div>
+        <div>
+          <img src="https://sfault-avatar.b0.upaiyun.com/119/055/1190556508-5923c3e3428ee_big64">
+          <span>消息1</span>
+        </div>
+        <img src="https://sfault-avatar.b0.upaiyun.com/119/055/1190556508-5923c3e3428ee_big64">
+        <span>消息2</span>
+        <div>
   
+        </div>
+      </div>
       </Col>
       <!-- 右边栏 -->
     </Row>
@@ -33,6 +49,8 @@
 </template>
 
 <script>
+import Message from '@/components/Message'
+
 export default {
   name: 'chatroom',
   data() {
