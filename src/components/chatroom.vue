@@ -16,7 +16,7 @@
           <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
         </Form-item>
         <Form-item>
-          <Button type="primary">提交</Button>
+          <button v-on:click="sendmsg" type="button" class="ivu-btn ivu-btn-ghost">提交</button>
           <Button type="ghost" style="margin-left: 8px">取消</Button>
         </Form-item>
         <Upload multiple type="drag" action="//jsonplaceholder.typicode.com/posts/">
@@ -50,12 +50,18 @@
 
 <script>
 import Message from '@/components/Message'
+import ws from '../ws.js'
 
 export default {
   name: 'chatroom',
   data() {
     return {
-      msg: 'Welcome to this chatroom',
+      msg: {
+        "avatar": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4073834851,1760808847&fm=26&gp=0.jpg",
+        "name": "名字1",
+        "message": "消息1",
+        "permission ": "1"
+      },
       formItem: {
         input: '',
         select: '',
@@ -69,7 +75,29 @@ export default {
       }
 
     }
-  }
+  },
+  methods: {
+    send() {
+
+    },
+    sendmsg() {
+      ws.send( JSON.stringify(this.msg) )
+    }
+  },
+  // beforeMount: function () {
+  //   var ws = new WebSocket('ws://localhost:8081')
+
+  //   ws.onmessage = function (msg) {
+  //     if (msg.data == "linkok") {
+  //       console.log(msg.data)
+  //       return
+  //     }
+  //     console.log(JSON.parse(msg.data).name)
+  //     //console.log( JSON.stringify(msg.data) )
+  //     //console.log( msg )
+  //     ws.onclose = function (evt) { console.log('WebSocketClosed!'); };
+  //   }
+  // }
 }
 </script>
 
