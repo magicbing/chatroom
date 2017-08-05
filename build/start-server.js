@@ -90,6 +90,11 @@ const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8081 });
 
 wss.on('connection', function connection(ws, req) {
+  const ip = req.connection.remoteAddress;
+  //const ip = req.headers['x-forwarded-for'];
+  //有新人进入显示ip
+  console.log(ip)
+
   const location = url.parse(req.url, true);
   // You might use location.query.access_token to authenticate or share sessions
   // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
@@ -98,7 +103,15 @@ wss.on('connection', function connection(ws, req) {
     let msg = JSON.parse(message)
     console.log('received: ', msg.message );
     //console.log('received: ', msg);
-    ws.send(message);
+    //ws.send(message);
+
+    wss.clients.forEach(function each(client) {
+      //if (client !== ws && client.readyState === WebSocket.OPEN) {
+      //if是选择除去发送人的其他人
+        client.send(message);
+      //}
+    });
+
   });
 
   ws.send('linkok');

@@ -81,7 +81,13 @@ export default {
 
     },
     sendmsg() {
-      ws.send( JSON.stringify(this.msg) )
+      let msg = {
+        "avatar": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4073834851,1760808847&fm=26&gp=0.jpg",
+          "name": "名字2",
+            "message": this.formItem.textarea,
+              "permission ": "1"
+      }
+      ws.send(JSON.stringify(msg))
     }
   },
   // beforeMount: function () {

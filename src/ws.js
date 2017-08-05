@@ -5,10 +5,10 @@ ws.onmessage = function (msg) {
     console.log(msg.data)
     return
   }
-  console.log(JSON.parse(msg.data).name)
+  console.log(JSON.parse(msg.data).name + JSON.parse(msg.data).message)
   //console.log( JSON.stringify(msg.data) )
   //console.log( msg )
-  ws.onclose = function (evt) { console.log('WebSocketClosed!'); };
+  // ws.onclose = function (evt) { console.log('WebSocketClosed!'); };
 }
 
 var send = {
