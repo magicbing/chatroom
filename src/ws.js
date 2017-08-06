@@ -6,6 +6,7 @@ ws.onmessage = function (msg) {
     return
   }
   console.log(JSON.parse(msg.data).name + JSON.parse(msg.data).message)
+  callback()
   //console.log( JSON.stringify(msg.data) )
   //console.log( msg )
   // ws.onclose = function (evt) { console.log('WebSocketClosed!'); };
