@@ -22,7 +22,10 @@
           <button v-on:click="sendmsg" type="button" class="ivu-btn ivu-btn-ghost">提交</button>
           <Button type="ghost" style="margin-left: 8px">取消</Button>
         </Form-item>
-        <Upload multiple type="drag" action="//jsonplaceholder.typicode.com/posts/">
+        <Form-item>
+          <input v-on:change="onchange" type="file">
+        </Form-item>
+        <Upload multiple type="drag" action="sendmsg()">
           <div style="padding: 20px 0">
             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
             <p>上传图片</p>
@@ -35,9 +38,20 @@
       <Col span="12">
       <div>
         <div v-for="(item, index) in msgList" v-bind:key="index">
-          <img v-bind:src="item.avatar">
-          <div>{{ item.name }}</div>
-          <div>{{ item.message }}</div>
+          <Col span="12">
+          <div>
+            <img v-bind:src="item.avatar">
+            <div>{{ item.name }}</div>
+          </div>
+          </Col>
+          <Col span="12">
+          <div>
+            <div v-if="item.img">
+              <img v-bind:src="item.img" style="width:200px;">
+            </div>
+            <div v-else>{{ item.message }}</div>
+          </div>
+          </Col>
         </div>
       </div>
       </Col>
@@ -79,6 +93,7 @@ export default {
           "avatar": "https://sfault-avatar.b0.upaiyun.com/119/055/1190556508-5923c3e3428ee_big64",
           "name": "名字1",
           "message": "消息1",
+          "img": "",
           "permission": "1"
         },
       ],
@@ -92,7 +107,8 @@ export default {
         time: '',
         slider: [20, 50],
         name: 'name1',
-        message: '留言写在这'
+        message: '留言写在这',
+        img: ''
       }
 
     }
@@ -104,7 +120,10 @@ export default {
         if (msg.data == "linkok") {
           console.log(msg.data)
           return
+        } else if (JSON.parse(msg.data).img) {
+
         }
+
         that.callback(msg)
 
         // ws.onclose = function (evt) { console.log('WebSocketClosed!'); };
@@ -122,18 +141,51 @@ export default {
         "avatar": JSON.parse(msg.data).avatar,
         "name": JSON.parse(msg.data).name,
         "message": JSON.parse(msg.data).message,
+        "img": JSON.parse(msg.data).img,
         "permission": JSON.parse(msg.data).permission
       }
-      console.log( this.msgList.push(getMsg) )
+      console.log(this.msgList.push(getMsg))
     },
     sendmsg() {
       let msg = {
         "avatar": "https://sfault-avatar.b0.upaiyun.com/119/055/1190556508-5923c3e3428ee_big64",
         "name": this.formItem.name,
         "message": this.formItem.message,
+        "img": this.formItem.img,
         "permission ": "1"
       }
       ws.send(JSON.stringify(msg))
+    },
+    onchange(evt) {
+      console.log('onchange.')
+      var that = this
+      var files = evt.target.files;
+      //console.log('files is:' + files);
+
+      for (var i = 0, f; f = files[i]; i++) {
+
+        //if (!f.type.match('image.*')) {
+        //    continue;
+        //}
+
+        var reader = new FileReader();
+
+        reader.onload = (function (theFile) {
+
+          return function (e) {
+
+            console.log(e.target)
+            console.log(that.formItem.img)
+            console.log('uncompress base64' + e.target.result.slice(0, 50));
+
+            that.formItem.img = e.target.result
+            that.sendmsg()
+            that.formItem.img = ''
+          };
+
+        })(f);
+        reader.readAsDataURL(f);
+      }
     }
   },
   beforeMount: function () {

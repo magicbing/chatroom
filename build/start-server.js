@@ -101,7 +101,7 @@ wss.on('connection', function connection(ws, req) {
 
   ws.on('message', function incoming(message) {
     let msg = JSON.parse(message)
-    console.log('received: ', msg.message );
+    console.log('received: ', msg.img.slice(0, 25) );
     //console.log('received: ', msg);
     //ws.send(message);
 
